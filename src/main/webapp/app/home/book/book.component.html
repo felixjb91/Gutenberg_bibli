@@ -1,0 +1,21 @@
+<mat-card class="container card bg-light mb-3 bookCard">
+    <div class="row card-header">
+        <h5 class="titre overflow-visible"><small>{{this.title}}</small></h5>
+    </div>
+    <div class="row card-body">
+        <div class="col-6 overflow-visible">
+            <mat-card-subtitle>{{this.author}}</mat-card-subtitle>
+                <div *ngFor="let subj of subjects">
+                    <small>{{subj}}</small>
+                </div>
+        </div>
+        <div class="col-6">
+            <a href="{{ generateURL() }}" target="_blank"class="col ">
+                <img class="" mat-card-image src="{{imageSrc}}">
+            </a>
+        </div>
+    </div>
+    <div class="row card-footer" >
+        <button class="btn btn-outline-secondary btn-lg btn-block" (click)="getSuggestion()">Suggestions</button>
+    </div>
+</mat-card>

@@ -1,38 +1,58 @@
-<div class="row">
-    <div class="col-md-3">
-        <span class="hipster img-fluid rounded"></span>
+<div>
+    <h1 class="display-4 text-center mb-lg-5">Bibliothèque de Gutenberg!</h1>
+
+    <div class="text-center">
+        <form #searchBooks="ngForm" (ngSubmit)="onSubmit(searchBooks)">
+            <mat-form-field appearance="fill">
+                <mat-label>Filtrer</mat-label>
+                <mat-select ngModel name="filtre">
+                    <mat-option value="default">default</mat-option>
+                    <mat-option value="closness">closness</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Word to search</mat-label>
+                <input ngModel name="word" matInput placeholder="Ex. Pizza">
+            </mat-form-field>
+            <button type="submit" class="btn btn-outline-secondary btn-lg mb-3">Search!</button>
+        </form>
     </div>
 
-    <div class="col-md-9">
-        <h1 class="display-4">Welcome, Java Hipster!</h1>
-
-        <p class="lead">This is your homepage</p>
-
-        <div [ngSwitch]="isAuthenticated()">
-            <div class="alert alert-success" *ngSwitchCase="true">
-                <span id="home-logged-message" *ngIf="account">You are logged in as user "{{ account.login }}".</span>
+    <div *ngIf="loading">
+        <div class="loader pb-5">
+            <div class="duo duo1">
+                <div class="dot dot-a"></div>
+                <div class="dot dot-b"></div>
             </div>
-
-            <div class="alert alert-warning" *ngSwitchCase="false">
-                <span>If you want to </span>
-                <a class="alert-link" (click)="login()">sign in</a><span>, you can try the default accounts:<br/>- Administrator (login="admin" and password="admin") <br/>- User (login="user" and password="user").</span>
+            <div class="duo duo2">
+                <div class="dot dot-a"></div>
+                <div class="dot dot-b"></div>
             </div>
         </div>
+    </div>
 
-        <p>
-            If you have any question on JHipster:
-        </p>
+    <div class="container-fluid m-3" *ngIf="!loading && filesName && filesName.length > 0">
+        <div class="row justify-content-center">
+            <div class="btn-group" role="group" aria-label="Basic example">
+                <mat-paginator [length]="pageLength"
+                               [pageSize]="pageSize"
+                               [pageSizeOptions]="pageOptions"
+                               [pageIndex]="pageIndex"
+                               [showFirstLastButtons]="true"
+                               (page)="handlePage($event)">
 
-        <ul>
-            <li><a href="https://www.jhipster.tech/" target="_blank" rel="noopener noreferrer">JHipster homepage</a></li>
-            <li><a href="http://stackoverflow.com/tags/jhipster/info" target="_blank" rel="noopener noreferrer">JHipster on Stack Overflow</a></li>
-            <li><a href="https://github.com/jhipster/generator-jhipster/issues?state=open" target="_blank" rel="noopener noreferrer">JHipster bug tracker</a></li>
-            <li><a href="https://gitter.im/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer">JHipster public chat room</a></li>
-            <li><a href="https://twitter.com/jhipster" target="_blank" rel="noopener noreferrer">follow @jhipster on Twitter</a></li>
-        </ul>
-
-        <p>
-            <span>If you like JHipster, don't forget to give us a star on</span> <a href="https://github.com/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer">GitHub</a>!
-        </p>
+                </mat-paginator>
+                <div *ngFor="let p of pagesTab">
+                    <button [id]="p" type="button" [ngClass]="{'btn-secondary':pageIndex === p, 'btn-outline-secondary':pageIndex != p}" class="btn " (click)="changePage(p)">{{p+1}}</button>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-around">
+            <div *ngFor="let file of filesName">
+                <div class="col mb-3">
+                    <jhi-book [filename]="file"></jhi-book>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

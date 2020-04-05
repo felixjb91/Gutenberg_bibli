@@ -1,0 +1,16 @@
+<div class="container-fluid" xmlns="http://www.w3.org/1999/html">
+    <div class="row justify-content-between">
+        <h2 class="col">Suggestions de <b>{{dataSuggestion.title}}</b></h2>
+        <button type="button" (click)="onNoClick()" class="btn btn-light col col-md-auto ">
+            <mat-icon>clear</mat-icon>
+        </button>
+    </div>
+    <div class="row">
+        <div class="scrolling-wrapper">
+            <div *ngFor="let file of dataSuggestion.suggestions" class="card m-3">
+                <jhi-book  [filename]="file"></jhi-book>
+            </div>
+        </div>
+    </div>
+</div>
+
